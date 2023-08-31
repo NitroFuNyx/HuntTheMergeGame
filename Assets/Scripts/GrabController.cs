@@ -6,7 +6,7 @@ public class GrabController : MonoBehaviour
     [Space]
     [SerializeField] private Camera mainCamera;
 
-    private Vector3 selectedObjectLastPosition;
+    [SerializeField]private Vector3 selectedObjectLastPosition;
 
     private GameObject selectedObject;
 
@@ -43,17 +43,21 @@ public class GrabController : MonoBehaviour
            
         }
 
+        if(selectedObject != null) {
+            Vector3 position = new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.WorldToScreenPoint(selectedObject.transform.position).z);
+            Vector3 worldPosition = Camera.main.ScreenToWorldPoint(position);
+            selectedObject.transform.position = new Vector3(worldPosition.x, offsetY, worldPosition.z);
+
+        }
         if (Input.GetMouseButtonUp(0))
         {
+            if (selectedObject == null) return;
             RaycastHit dropZoneHit = CastRay();
 
             if (dropZoneHit.collider!= null)
             {
                 Debug.Log(dropZoneHit.collider.gameObject.name,dropZoneHit.collider.gameObject);
-
-                if (!dropZoneHit.collider.CompareTag("DropZone")) {
-                    return;
-                }
+                
                 selectedObject.transform.position = new Vector3(dropZoneHit.transform.position.x, dropZoneHit.transform.position.y, dropZoneHit.transform.position.z);
 
                 selectedObject = null;
@@ -69,12 +73,7 @@ public class GrabController : MonoBehaviour
 
         }
 
-        if(selectedObject != null) {
-            Vector3 position = new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.WorldToScreenPoint(selectedObject.transform.position).z);
-            Vector3 worldPosition = Camera.main.ScreenToWorldPoint(position);
-            selectedObject.transform.position = new Vector3(worldPosition.x, offsetY, worldPosition.z);
-
-        }
+        
     }
 
     private RaycastHit CastRay() {

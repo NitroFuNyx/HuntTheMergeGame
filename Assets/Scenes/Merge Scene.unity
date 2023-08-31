@@ -1321,21 +1321,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 361823987}
     m_Modifications:
+    - target: {fileID: -7930067182837398535, guid: 8b014e62f1a981c4bb4436bd62e374cc, type: 3}
+      propertyPath: isLocked
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 652946975785489587, guid: 8b014e62f1a981c4bb4436bd62e374cc, type: 3}
       propertyPath: m_Name
       value: Animal drop zone
       objectReference: {fileID: 0}
-    - target: {fileID: 652946975785489587, guid: 8b014e62f1a981c4bb4436bd62e374cc, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 5482666462252719006, guid: 8b014e62f1a981c4bb4436bd62e374cc, type: 3}
       propertyPath: m_RootOrder
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5482666462252719006, guid: 8b014e62f1a981c4bb4436bd62e374cc, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.7009027
       objectReference: {fileID: 0}
     - target: {fileID: 5482666462252719006, guid: 8b014e62f1a981c4bb4436bd62e374cc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2480,6 +2476,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 0}
+  selectedObjectLastPosition: {x: 0, y: 0, z: 0}
   offsetY: 0.25
   rayLayer:
     serializedVersion: 2
@@ -2659,7 +2656,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1494683779}
   m_Layer: 0
-  m_Name: Row 2 (1)
+  m_Name: Row 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3082,29 +3079,11 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.77, y: 1.8800005, z: 0.20000005}
   m_Center: {x: 0.00000023841858, y: -0.00000032782555, z: 0.0000012367964}
---- !u!1 &1707163079 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 652946975785489587, guid: 8b014e62f1a981c4bb4436bd62e374cc, type: 3}
-  m_PrefabInstance: {fileID: 621237843}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1707163080 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5482666462252719006, guid: 8b014e62f1a981c4bb4436bd62e374cc, type: 3}
   m_PrefabInstance: {fileID: 621237843}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &1707163081
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1707163079}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.77, y: 1.8800005, z: 0.20000005}
-  m_Center: {x: 0.00000023841858, y: -0.00000032782555, z: 0.0000012367964}
 --- !u!1001 &1710956220
 PrefabInstance:
   m_ObjectHideFlags: 0
