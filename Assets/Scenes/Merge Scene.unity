@@ -271,6 +271,51 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b014e62f1a981c4bb4436bd62e374cc, type: 3}
+--- !u!1 &13181554
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 13181555}
+  - component: {fileID: 13181556}
+  m_Layer: 0
+  m_Name: MergeManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &13181555
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 13181554}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 710294975}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &13181556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 13181554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a79ab7491a1a6a4e98547994548b9ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animalSpawner: {fileID: 1341154794}
 --- !u!4 &43359658 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5482666462252719006, guid: 8b014e62f1a981c4bb4436bd62e374cc, type: 3}
@@ -1440,8 +1485,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6a04f06d4fa443479c9e7d026d92861, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemiesPoolSize: 15
-  bloodPuddleVfxPrefab: {fileID: 6461454174187042226, guid: 4920f8bf87bbde14cbc435cace96c251, type: 3}
+  redFoxesPoolSize: 15
+  grayFoxesPoolSize: 14
+  wolfsPoolSize: 12
+  redFoxesPrefab: {fileID: 6461454174187042226, guid: 4920f8bf87bbde14cbc435cace96c251, type: 3}
+  grayFoxesPrefab: {fileID: -2902384195924687612, guid: e2b9a6aeeda64154fb4d529f7b1e021c, type: 3}
+  wolfsPrefab: {fileID: 1597585808731223684, guid: 0b8c2764f323f1c41a32f93f73762f00, type: 3}
 --- !u!1 &667867864
 GameObject:
   m_ObjectHideFlags: 0
@@ -1730,6 +1779,7 @@ Transform:
   - {fileID: 1341529381}
   - {fileID: 634834687}
   - {fileID: 1341154793}
+  - {fileID: 13181555}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2912,6 +2962,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 0}
   tileInteractionHandler: {fileID: 2041394626}
+  mergeManager: {fileID: 13181556}
   selectedObjectLastPosition: {x: 0, y: 0, z: 0}
   selectedObjectLastTile: {fileID: 0}
   offsetY: 0.25

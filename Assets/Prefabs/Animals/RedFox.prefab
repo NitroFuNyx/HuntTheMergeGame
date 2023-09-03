@@ -393,7 +393,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 826d6b6e849c45646b90adfabb786714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animalData: {fileID: 11400000, guid: 7744dc8b997c9a849a71fcc2d6ae245b, type: 2}
+  poolItem: {fileID: 6461454174187042226}
   outline: {fileID: 959083618}
+  boxCollider: {fileID: 655168302}
 --- !u!1 &3659034406612884750
 GameObject:
   m_ObjectHideFlags: 0

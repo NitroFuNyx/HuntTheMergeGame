@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using System.Collections.Generic;
 using Random = UnityEngine.Random;
@@ -17,33 +16,38 @@ public class AnimalSpawner : MonoBehaviour
     [SerializeField] private PoolItemsManager _poolItemsManager;
     [SerializeField] private TileInteractionHandler tileInteractionHandler;
     
+   
     public void UpdateTileList(TileHolder tile)
     {
-        Debug.Log($"2.bought tile {tile}",tile.gameObject);
 
       //  if (tile == null) return;
-        if (tilesList.Contains(tile))
-        {
+      if(tile.MViewModel.IsOccupied)
             tilesList.Remove(tile);
-        }
-        else 
-        {tilesList.Add(tile);}
+      else if(tilesList.Contains(tile))
+      {
+          return;
+          
+      }
+      else
+      {
+          tilesList.Add(tile);
+      }
     }
 
     public void SpawnAnimal()
     {
         if (tilesList.Count <= 0) return;
-
+        ResourceManager.Instance.DecreaseMeatAmount(20);
         var targetTile = tilesList[(int)Random.Range(0,tilesList.Count)];
         if(targetTile.transform != null)
         {       
-            tileInteractionHandler.OccupyTile(targetTile,true);
-
+            tileInteractionHandler.OccupyTile(targetTile,true,1);
             PoolItem poolItem = _poolItemsManager.SpawnItemFromPool(PoolItemsTypes.RedFox, targetTile.transform.position, Quaternion.identity, spawnedObjectsHolder);
             
             if (poolItem != null)
             {
                 poolItem.SetObjectAwakeState();
+                
             }
             else
             {
@@ -51,7 +55,28 @@ public class AnimalSpawner : MonoBehaviour
             }
         }
     }
-    
+    public void SpawnAnimal(PoolItemsTypes type,TileHolder targetTile)
+    {
+        if(targetTile.transform != null)
+        {       
+            tileInteractionHandler.OccupyTile(targetTile,true,(int)type);
+
+            PoolItem poolItem = _poolItemsManager.SpawnItemFromPool(type, targetTile.transform.position, Quaternion.identity, spawnedObjectsHolder);
+            
+            if (poolItem != null)
+            {
+                poolItem.SetObjectAwakeState();
+            }
+            else
+            {
+                Debug.LogWarning($"There is no {type} models left in the pool to spawn at {gameObject}", gameObject);
+            }
+        }
+    }
+    public void ReturnAnimalToPool(PoolItem item)
+    {
+        item.PoolItemsManager.ReturnItemToPool(item);
+    }
 
     public void ReturnAllAnimalsToPool()
     {
@@ -72,6 +97,7 @@ public class AnimalSpawner : MonoBehaviour
 
        
     }
+    
 
     private void ActivateSpawnVFX()
     {

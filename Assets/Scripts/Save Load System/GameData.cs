@@ -9,7 +9,7 @@ public class GameData
 
     public GameData()
     {
-        meatAmount = new Secureint();
+        meatAmount = new Secureint(20);
         tilesList = new List<TileHolder.ViewModel>();
       //  tilesList.ForEach(tile => tile.IsLocked = true);
     }

@@ -1,4 +1,5 @@
 using System.Numerics;
+using Unity.VisualScripting;
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
 
@@ -11,6 +12,7 @@ public class GrabController : MonoBehaviour
     [Header("External references")]
     [Space]
     [SerializeField] private TileInteractionHandler tileInteractionHandler;
+    [SerializeField] private MergeManager mergeManager;
     
     [SerializeField]private Vector3 selectedObjectLastPosition;
     [SerializeField] private TileHolder selectedObjectLastTile;
@@ -60,9 +62,9 @@ public class GrabController : MonoBehaviour
             if(selectedObjectLastPosition!=Vector3.zero&&selectedObject!=null)
             {
                 selectedObject.transform.position = selectedObjectLastPosition;
-                tileInteractionHandler.OccupyTile(selectedObjectLastTile,true);
+                selectedObject.ActivateCollider(true);
                 selectedObject.ActivateOutline(false);
-                selectedObjectLastTile = null;
+                tileInteractionHandler.OccupyTile(selectedObjectLastTile, true, selectedObject.AnimalData.level);
                 selectedObject = null;
                 selectedObjectLastPosition=Vector3.zero;
             }
@@ -90,13 +92,15 @@ public class GrabController : MonoBehaviour
             {
                 selectedObject = item;
                 selectedObject.ActivateOutline(true);
+                item.ActivateCollider(false);
             }
             if (dropZoneHit.collider != null)
             {
                 if (dropZoneHit.collider.TryGetComponent(out TileHolder tileItem))
                 {
-                    tileInteractionHandler.OccupyTile(tileItem,false);
+                    tileInteractionHandler.OccupyTile(tileItem, false);
                     selectedObjectLastTile = tileItem;
+
                 }
             }
             selectedObjectLastPosition = hit.collider.transform.position;
@@ -105,6 +109,56 @@ public class GrabController : MonoBehaviour
         
 
     }
+
+    private void PutAnimal(TileHolder item, Vector3 hit)
+    {
+        if (item.MViewModel.IsLocked)
+        {
+            tileInteractionHandler.OccupyTile(selectedObjectLastTile,true,selectedObject.AnimalData.level);
+
+            return;
+        }
+        if (!item.MViewModel.IsOccupied)
+        {
+            selectedObject.transform.position = new Vector3(hit.x, hit.y, hit.z);
+            selectedObject.ActivateOutline(false);
+            selectedObject.ActivateCollider(true);
+
+            tileInteractionHandler.OccupyTile(item,true,selectedObject.AnimalData.level);
+            selectedObject = null;
+        }
+        else
+        {
+            RaycastHit hitAnimal = CastRay(animalLayer);
+
+            if (hitAnimal.collider != null)
+            {
+                if (!hitAnimal.collider.CompareTag("Drag"))
+                { return;
+                }
+
+                if (hitAnimal.collider.TryGetComponent(out Animal animalItem)) 
+                {
+                    if (mergeManager.MergeAnimals(item, selectedObject, animalItem))
+                    {
+                            selectedObject.transform.position = selectedObjectLastPosition;
+                            tileInteractionHandler.OccupyTile(selectedObjectLastTile,true,selectedObject.AnimalData.level);
+                    }
+                    else
+                    {
+                        tileInteractionHandler.OccupyTile(selectedObjectLastTile,false);
+                        selectedObjectLastTile = null;
+                    }
+
+                }
+
+            }
+            
+        }
+        
+
+    }
+
     private void InteractWithTile()
     {
         if (selectedObject != null)return ;
@@ -126,18 +180,7 @@ public class GrabController : MonoBehaviour
         }
 
     }
-    private void PutAnimal(TileHolder item, Vector3 hit)
-    {
-        if (item.MViewModel.IsLocked) return;
-        if (!item.MViewModel.IsOccupied)
-        {
-            selectedObject.transform.position = new Vector3(hit.x, hit.y, hit.z);
-            selectedObject.ActivateOutline(false);
-            selectedObject = null; 
-            tileInteractionHandler.OccupyTile(item,true);
-                        
-        }
-    }
+
     private RaycastHit CastRay(LayerMask layer) {
         Vector3 screenMousePosFar = new Vector3(
             Input.mousePosition.x,

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class TileInitializator : MonoBehaviour,IDataPersistance
@@ -13,9 +14,12 @@ public class TileInitializator : MonoBehaviour,IDataPersistance
         tileInteractionHandler.OnAvailableTilesListUpdated += UpdateAvailableLists;
     }
 
+   
+
     private void UpdateAvailableLists(TileHolder tile)
     {
         animalSpawner.UpdateTileList(tile);
+
     }
 
     private void InitTiles()
@@ -35,6 +39,8 @@ public class TileInitializator : MonoBehaviour,IDataPersistance
                 UpdateAvailableLists(tilesList[i]);
             }
 
+            if (tilesList[i].MViewModel.Level>0&&tilesList[i].MViewModel.Level<4)
+            animalSpawner.SpawnAnimal((PoolItemsTypes)tilesList[i].MViewModel.Level,tilesList[i]);
         }
         tileInteractionHandler.InitTilesList(tilesList);
     }

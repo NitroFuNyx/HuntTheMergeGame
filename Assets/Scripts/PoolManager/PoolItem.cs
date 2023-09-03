@@ -29,8 +29,8 @@ public class PoolItem : MonoBehaviour
         OnObjectAwakeStateSet?.Invoke();
     }
 
-    public void CashComponents()
+    public void CashComponents(PoolItemsManager poolItemsManager)
     {
-        
+        _poolItemsManager = poolItemsManager;
     }
 }

@@ -32,9 +32,10 @@ public class TileHolder : MonoBehaviour
       blockedScreen.SetActive(false);
     }
 
-    public void OccupyTile(bool value)
+    public void OccupyTile(bool isOccupied,int level)
     {
-        _mViewModel.IsOccupied = value;
+        _mViewModel.IsOccupied = isOccupied;
+        _mViewModel.Level = level;
 
     }
     [Serializable]

@@ -32,9 +32,10 @@ public class TileInteractionHandler : MonoBehaviour
         }
     }
 
-    public void OccupyTile(TileHolder tile,bool isOccupied)
+    public void OccupyTile(TileHolder tile,bool isOccupied,int level=0)
     {
-        tile.OccupyTile(isOccupied);
+        if (tile == null) return;
+        tile.OccupyTile(isOccupied,level);
         OnAvailableTilesListUpdated?.Invoke(tile);
 
     }

@@ -6,14 +6,18 @@ public class PoolItemsManager : MonoBehaviour
 {
     [Header("Pool Data")]
     [Space]
-    [SerializeField] private int enemiesPoolSize = 50;
+    [SerializeField] private int redFoxesPoolSize = 15;
+    [SerializeField] private int grayFoxesPoolSize = 14;
+    [SerializeField] private int wolfsPoolSize = 12;
 
     [Header("Active Pools")]
     [Space]
     [SerializeField] private List<List<PoolItem>> activePoolsList = new List<List<PoolItem>>();
     [Header("Prefabs")]
     [Space]
-    [SerializeField] private PoolItem bloodPuddleVfxPrefab;
+    [SerializeField] private PoolItem redFoxesPrefab;
+    [SerializeField] private PoolItem grayFoxesPrefab;
+    [SerializeField] private PoolItem  wolfsPrefab;
 
     private Dictionary<PoolItemsTypes, List<PoolItem>> itemsListsDictionary = new Dictionary<PoolItemsTypes, List<PoolItem>>();
     private Dictionary<PoolItemsTypes, Transform> itemsHoldersDictionary = new Dictionary<PoolItemsTypes, Transform>();
@@ -23,7 +27,9 @@ public class PoolItemsManager : MonoBehaviour
 
     private void Start()
     {
-        CreatePool(bloodPuddleVfxPrefab, "Enemy Skeleton", enemiesPoolSize);
+        CreatePool(redFoxesPrefab, "Red fox", redFoxesPoolSize);
+        CreatePool(grayFoxesPrefab, "Gray fox", grayFoxesPoolSize);
+        CreatePool(wolfsPrefab, "Wolf", wolfsPoolSize);
 
     }
 
@@ -91,7 +97,7 @@ public class PoolItemsManager : MonoBehaviour
         {
             PoolItem poolItem = Instantiate(poolItemPrefab, Vector3.zero, Quaternion.identity, poolItemsParent.transform);
             poolItem.transform.localPosition = Vector3.zero;
-            poolItem.CashComponents();
+            poolItem.CashComponents(this);
             itemsList.Add(poolItem);
             poolItem.name = $"{itemName} {i}";
         }

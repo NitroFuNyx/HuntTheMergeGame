@@ -1,6 +1,7 @@
 public enum PoolItemsTypes
 {
-    Wolf,
-    RedFox,
-    BlackFox
+    RedFox=1,
+    BlackFox=2,
+    Wolf=3
+
 }
