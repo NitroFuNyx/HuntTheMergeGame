@@ -91,19 +91,21 @@ public class GrabController : MonoBehaviour
                 selectedObject = item;
                 selectedObject.ActivateOutline(true);
             }
+            if (dropZoneHit.collider != null)
+            {
+                if (dropZoneHit.collider.TryGetComponent(out TileHolder tileItem))
+                {
+                    tileInteractionHandler.OccupyTile(tileItem,false);
+                    selectedObjectLastTile = tileItem;
+                }
+            }
             selectedObjectLastPosition = hit.collider.transform.position;
         }
 
-        if (dropZoneHit.collider != null)
-        {
-            if (dropZoneHit.collider.TryGetComponent(out TileHolder item))
-            {
-                tileInteractionHandler.OccupyTile(item,false);
-                selectedObjectLastTile = item;
-            }
-        }
+        
 
-    }private void InteractWithTile()
+    }
+    private void InteractWithTile()
     {
         if (selectedObject != null)return ;
         RaycastHit hit = CastRay(dropZoneLayer);

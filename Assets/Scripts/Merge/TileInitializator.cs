@@ -5,10 +5,17 @@ public class TileInitializator : MonoBehaviour,IDataPersistance
 {
     [SerializeField] private List<TileHolder> tilesList;
     [SerializeField] private TileInteractionHandler tileInteractionHandler;
+    [SerializeField] private AnimalSpawner animalSpawner;
 
     private void Start()
     {
         DataPersistanceManager.Instance.AddObjectToSaveSystemObjectsList(this);
+        tileInteractionHandler.OnAvailableTilesListUpdated += UpdateAvailableLists;
+    }
+
+    private void UpdateAvailableLists(TileHolder tile)
+    {
+        animalSpawner.UpdateTileList(tile);
     }
 
     private void InitTiles()
@@ -23,7 +30,11 @@ public class TileInitializator : MonoBehaviour,IDataPersistance
                 Level = tilesList[i].MViewModel.Level,
                 
             };
-           
+            if (!tilesList[i].MViewModel.IsLocked&&!tilesList[i].MViewModel.IsOccupied)
+            {
+                UpdateAvailableLists(tilesList[i]);
+            }
+
         }
         tileInteractionHandler.InitTilesList(tilesList);
     }
