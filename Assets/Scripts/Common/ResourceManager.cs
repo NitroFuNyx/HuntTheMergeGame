@@ -1,28 +1,26 @@
-using UnityEngine;
 using System;
+using UnityEngine;
 
 public class ResourceManager : Singleton<ResourceManager>, IDataPersistance
 {
-    
-
     private DataPersistanceManager _dataPersistanceManager;
-    [SerializeField]private GameData gameData;
-    
+    [SerializeField] private GameData gameData;
 
-    private int coinsMultiplyerForAd = 2;
-
-   
     #region Events Declaration
+
     public event Action<int> OnMeatAmountChanged;
+
     #endregion Events Declaration
 
     private void Start()
     {
-        _dataPersistanceManager= DataPersistanceManager.Instance;
+        _dataPersistanceManager = DataPersistanceManager.Instance;
         _dataPersistanceManager.AddObjectToSaveSystemObjectsList(this);
         gameData = new GameData();
     }
+
     #region Save/Load Methods
+
     public void LoadData(GameData data)
     {
         gameData.meatAmount = data.meatAmount;
@@ -33,9 +31,11 @@ public class ResourceManager : Singleton<ResourceManager>, IDataPersistance
     {
         data.meatAmount = new Secureint(gameData.meatAmount.GetValue());
     }
+
     #endregion Save/Load Methods
 
     #region Basic Resources Methods
+
     public void IncreaseMeatAmount(int deltaAmount)
     {
         gameData.meatAmount += new Secureint(deltaAmount);
@@ -46,37 +46,26 @@ public class ResourceManager : Singleton<ResourceManager>, IDataPersistance
     {
         gameData.meatAmount -= new Secureint(deltaAmount);
 
-        if( gameData.meatAmount.GetValue() < 0)
-        {
-            gameData.meatAmount =new Secureint(0);
-        }
+        if (gameData.meatAmount.GetValue() < 0) gameData.meatAmount = new Secureint(0);
 
         OnMeatAmountChanged?.Invoke(gameData.meatAmount.GetValue());
     }
-    
+
     #endregion Basic Resources Methods
 
     // Start Of Test Methods
     [ContextMenu("Increase Resources Amount")]
     public void TestMethod_IncreaseResourcesAmount()
     {
-         gameData.meatAmount += new Secureint(1000);
-         OnMeatAmountChanged?.Invoke(gameData.meatAmount.GetValue());
-      
+        gameData.meatAmount += new Secureint(1000);
+        OnMeatAmountChanged?.Invoke(gameData.meatAmount.GetValue());
     }
     // End Of Test Methods
 
     public bool CheckIfEnoughResources(int cost)
     {
-        bool isEnoughResources = gameData.meatAmount.GetValue() >= cost;
+        var isEnoughResources = gameData.meatAmount.GetValue() >= cost;
 
         return isEnoughResources;
     }
-
-    
-
-  
- 
-
-   
 }

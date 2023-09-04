@@ -1,28 +1,30 @@
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PoolItemsManager : MonoBehaviour
 {
-    [Header("Pool Data")]
-    [Space]
-    [SerializeField] private int redFoxesPoolSize = 15;
+    [Header("Pool Data")] [Space] [SerializeField]
+    private int redFoxesPoolSize = 15;
+
     [SerializeField] private int grayFoxesPoolSize = 14;
     [SerializeField] private int wolfsPoolSize = 12;
 
-    [Header("Active Pools")]
-    [Space]
-    [SerializeField] private List<List<PoolItem>> activePoolsList = new List<List<PoolItem>>();
-    [Header("Prefabs")]
-    [Space]
-    [SerializeField] private PoolItem redFoxesPrefab;
+    [Header("Active Pools")] [Space] [SerializeField]
+    private readonly List<List<PoolItem>> activePoolsList = new();
+
+    [Header("Prefabs")] [Space] [SerializeField]
+    private PoolItem redFoxesPrefab;
+
     [SerializeField] private PoolItem grayFoxesPrefab;
-    [SerializeField] private PoolItem  wolfsPrefab;
+    [SerializeField] private PoolItem wolfsPrefab;
 
-    private Dictionary<PoolItemsTypes, List<PoolItem>> itemsListsDictionary = new Dictionary<PoolItemsTypes, List<PoolItem>>();
-    private Dictionary<PoolItemsTypes, Transform> itemsHoldersDictionary = new Dictionary<PoolItemsTypes, Transform>();
+    private readonly Dictionary<PoolItemsTypes, List<PoolItem>> itemsListsDictionary =
+        new();
 
-    private Vector3 poolItemsSpawnPos = new Vector3(100f, 100f, 100f);
+    private readonly Dictionary<PoolItemsTypes, Transform> itemsHoldersDictionary = new();
+
+    private readonly Vector3 poolItemsSpawnPos = new(100f, 100f, 100f);
 
 
     private void Start()
@@ -30,25 +32,23 @@ public class PoolItemsManager : MonoBehaviour
         CreatePool(redFoxesPrefab, "Red fox", redFoxesPoolSize);
         CreatePool(grayFoxesPrefab, "Gray fox", grayFoxesPoolSize);
         CreatePool(wolfsPrefab, "Wolf", wolfsPoolSize);
-
     }
 
-    public PoolItem SpawnItemFromPool(PoolItemsTypes poolItemType, Vector3 _spawnPos, Quaternion _rotation, Transform _parent)
+    public PoolItem SpawnItemFromPool(PoolItemsTypes poolItemType, Vector3 _spawnPos, Quaternion _rotation,
+        Transform _parent)
     {
         PoolItem poolItem = null;
 
         if (itemsListsDictionary.ContainsKey(poolItemType))
         {
-            List<PoolItem> poolItemsList = itemsListsDictionary[poolItemType];
+            var poolItemsList = itemsListsDictionary[poolItemType];
 
-            for (int i = 0; i < poolItemsList.Count; i++)
-            {
+            for (var i = 0; i < poolItemsList.Count; i++)
                 if (!poolItemsList[i].gameObject.activeInHierarchy)
                 {
                     poolItem = poolItemsList[i];
                     break;
                 }
-            }
 
             if (poolItem != null)
             {
@@ -63,14 +63,14 @@ public class PoolItemsManager : MonoBehaviour
         {
             Debug.LogError($"No pool for such prefab: {poolItemType} in dictionary");
         }
-        
+
 
         return poolItem;
     }
 
     public void ReturnItemToPool(PoolItem _poolItem)
     {
-        List<PoolItem> poolItemsList = itemsListsDictionary[_poolItem.PoolItemType];
+        var poolItemsList = itemsListsDictionary[_poolItem.PoolItemType];
 
         _poolItem.gameObject.SetActive(false);
         _poolItem.transform.SetParent(itemsHoldersDictionary[_poolItem.PoolItemType]);
@@ -81,21 +81,22 @@ public class PoolItemsManager : MonoBehaviour
 
     private void CreatePool(PoolItem poolItemPrefab, string itemName, int poolSize)
     {
-        GameObject poolItemsParent = new GameObject();
+        var poolItemsParent = new GameObject();
         poolItemsParent.transform.SetParent(transform);
         poolItemsParent.name = $"{itemName} Items Parent";
         poolItemsParent.transform.position = poolItemsSpawnPos;
 
-        List<PoolItem> itemsList = new List<PoolItem>();
+        var itemsList = new List<PoolItem>();
 
         activePoolsList.Add(itemsList);
 
         itemsListsDictionary.Add(poolItemPrefab.PoolItemType, itemsList);
         itemsHoldersDictionary.Add(poolItemPrefab.PoolItemType, poolItemsParent.transform);
 
-        for (int i = 0; i < poolSize; i++)
+        for (var i = 0; i < poolSize; i++)
         {
-            PoolItem poolItem = Instantiate(poolItemPrefab, Vector3.zero, Quaternion.identity, poolItemsParent.transform);
+            var poolItem =
+                Instantiate(poolItemPrefab, Vector3.zero, Quaternion.identity, poolItemsParent.transform);
             poolItem.transform.localPosition = Vector3.zero;
             poolItem.CashComponents(this);
             itemsList.Add(poolItem);
@@ -109,9 +110,6 @@ public class PoolItemsManager : MonoBehaviour
     {
         yield return null;
 
-        for(int i = 0; i < itemsList.Count; i++)
-        {
-            itemsList[i].gameObject.SetActive(false);
-        }
+        for (var i = 0; i < itemsList.Count; i++) itemsList[i].gameObject.SetActive(false);
     }
 }

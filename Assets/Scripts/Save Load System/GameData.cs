@@ -9,10 +9,8 @@ public class GameData
 
     public GameData()
     {
-        meatAmount = new Secureint(20);
+        meatAmount = new Secureint();
         tilesList = new List<TileHolder.ViewModel>();
-      //  tilesList.ForEach(tile => tile.IsLocked = true);
+        //  tilesList.ForEach(tile => tile.IsLocked = true);
     }
-   
-    
 }

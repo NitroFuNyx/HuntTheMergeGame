@@ -3,47 +3,44 @@ using UnityEngine;
 
 public class TileHolder : MonoBehaviour
 {
-
     [SerializeField] private GameObject blockedScreen;
-    
-    
-    
-    [SerializeField] private ViewModel _mViewModel;
+    [SerializeField] private ViewModel mViewModel;
 
     public ViewModel MViewModel
     {
-        get => _mViewModel;
+        get => mViewModel;
 
         set
         {
-            blockedScreen.SetActive(value.IsLocked); 
-            _mViewModel = value;
+            blockedScreen.SetActive(value.IsLocked);
+            mViewModel = value;
         }
     }
 
     public void BlockTile()
     {
-        _mViewModel.IsLocked = true;
+        mViewModel.IsLocked = true;
         blockedScreen.SetActive(true);
     }
+
     public void UnBlockTile()
     {
-        _mViewModel.IsLocked = false;
-      blockedScreen.SetActive(false);
+        mViewModel.IsLocked = false;
+        blockedScreen.SetActive(false);
     }
 
-    public void OccupyTile(bool isOccupied,int level)
+    public void OccupyTile(bool isOccupied, int level)
     {
-        _mViewModel.IsOccupied = isOccupied;
-        _mViewModel.Level = level;
-
+        mViewModel.IsOccupied = isOccupied;
+        mViewModel.Level = level;
     }
+
     [Serializable]
     public class ViewModel
     {
         public int TileId;
         public bool IsOccupied;
         public int Level;
-        public bool IsLocked=true;
+        public bool IsLocked = true;
     }
 }

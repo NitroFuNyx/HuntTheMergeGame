@@ -5,9 +5,9 @@ using UnityEngine;
 public class DataPersistanceManager : Singleton<DataPersistanceManager>
 {
     [SerializeField] private TileInitializator tileInitializator;
-    private float loadStartDataDelay = 0.1f;
+    private readonly float loadStartDataDelay = 0.1f;
 
-    private List<IDataPersistance> saveSystemDataObjectsList = new List<IDataPersistance>();
+    private readonly List<IDataPersistance> saveSystemDataObjectsList = new();
 
 
     private GameData gameData;
@@ -21,7 +21,6 @@ public class DataPersistanceManager : Singleton<DataPersistanceManager>
     public void NewGame()
     {
         gameData = new GameData(); // make class with default data
-
         tileInitializator.InitializeFirstTime(gameData);
         FileDataHandler.Write(gameData); // create json file and write default data
 
@@ -31,10 +30,7 @@ public class DataPersistanceManager : Singleton<DataPersistanceManager>
     [ContextMenu("Save")]
     public void SaveGame()
     {
-        for (int i = 0; i < saveSystemDataObjectsList.Count; i++)
-        {
-            saveSystemDataObjectsList[i].SaveData(gameData);
-        }
+        for (var i = 0; i < saveSystemDataObjectsList.Count; i++) saveSystemDataObjectsList[i].SaveData(gameData);
 
         FileDataHandler.Write(gameData);
     }
@@ -43,17 +39,14 @@ public class DataPersistanceManager : Singleton<DataPersistanceManager>
     {
         gameData = FileDataHandler.Read();
 
-        if(gameData == null)
+        if (gameData == null)
         {
-            Debug.Log($"No Save Files Found.");
-            Debug.Log($"Creating New Save File.");
+            Debug.Log("No Save Files Found.");
+            Debug.Log("Creating New Save File.");
             NewGame();
         }
 
-        for (int i = 0; i < saveSystemDataObjectsList.Count; i++)
-        {
-            saveSystemDataObjectsList[i].LoadData(gameData);
-        }
+        for (var i = 0; i < saveSystemDataObjectsList.Count; i++) saveSystemDataObjectsList[i].LoadData(gameData);
     }
 
     public void AddObjectToSaveSystemObjectsList(IDataPersistance saveSystemObject)
@@ -61,7 +54,6 @@ public class DataPersistanceManager : Singleton<DataPersistanceManager>
         saveSystemDataObjectsList.Add(saveSystemObject);
     }
 
-   
 
     private IEnumerator LoadStartDataCoroutine()
     {
