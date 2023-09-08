@@ -9,7 +9,7 @@ public class DataPersistanceManager : Singleton<DataPersistanceManager>
 
     private readonly List<IDataPersistance> saveSystemDataObjectsList = new();
 
-
+    
     private GameData gameData;
 
     private void Start()

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using System.Collections.Generic;
 using Random = UnityEngine.Random;
@@ -9,16 +10,18 @@ public class AnimalSpawner : MonoBehaviour
 
     [SerializeField] private List<TileHolder> tilesList;
 
-    [Header("VFX")] [Space] [SerializeField]
-    private List<ParticleSystem> vfxSpawnList = new();
-
     [SerializeField] private PoolItemsManager _poolItemsManager;
     [SerializeField] private TileInteractionHandler tileInteractionHandler;
 
+    private HuntProccessor huntProccessor;
+
+    private void Start()
+    {
+        huntProccessor = HuntProccessor.Instance;
+    }
 
     public void UpdateTileList(TileHolder tile)
     {
-        //  if (tile == null) return;
         if (tile.MViewModel.IsOccupied)
             tilesList.Remove(tile);
         else if (tilesList.Contains(tile))
@@ -41,9 +44,10 @@ public class AnimalSpawner : MonoBehaviour
         var targetTile = tilesList[Random.Range(0, tilesList.Count)];
         if (targetTile.transform != null)
         {
+          
             tileInteractionHandler.OccupyTile(targetTile, true, 1);
             var poolItem = _poolItemsManager.SpawnItemFromPool(PoolItemsTypes.RedFox, targetTile.transform.position,
-                Quaternion.identity, spawnedObjectsHolder);
+                Quaternion.Euler(0,180,0), spawnedObjectsHolder);
 
             if (poolItem != null)
                 poolItem.SetObjectAwakeState();
@@ -54,13 +58,28 @@ public class AnimalSpawner : MonoBehaviour
         }
     }
 
+    public void SpawnAnimal(PoolItemsTypes type)
+    {
+       
+
+            var poolItem = _poolItemsManager.SpawnItemFromPool(type, new Vector3(0,-10,0), Quaternion.identity,
+                spawnedObjectsHolder);
+            if (poolItem != null)
+            {
+                poolItem.SetObjectAwakeState();
+                huntProccessor.AddToHunt(poolItem);
+
+            }
+            else
+                Debug.LogWarning($"There is no {type} models left in the pool to spawn at {gameObject}", gameObject);
+    }
     public void SpawnAnimal(PoolItemsTypes type, TileHolder targetTile)
     {
         if (targetTile.transform != null)
         {
             tileInteractionHandler.OccupyTile(targetTile, true, (int) type);
 
-            var poolItem = _poolItemsManager.SpawnItemFromPool(type, targetTile.transform.position, Quaternion.identity,
+            var poolItem = _poolItemsManager.SpawnItemFromPool(type, targetTile.transform.position, Quaternion.Euler(0,180,0),
                 spawnedObjectsHolder);
 
             if (poolItem != null)
@@ -86,12 +105,5 @@ public class AnimalSpawner : MonoBehaviour
         for (var i = 0; i < poolItemsList.Count; i++)
             poolItemsList[i].PoolItemsManager.ReturnItemToPool(poolItemsList[i]);
     }
-
-
-    private void ActivateSpawnVFX()
-    {
-        if (vfxSpawnList.Count > 0)
-            for (var i = 0; i < vfxSpawnList.Count; i++)
-                vfxSpawnList[i].Play();
-    }
+    
 }

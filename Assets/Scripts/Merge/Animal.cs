@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Animal : MonoBehaviour
@@ -6,10 +7,18 @@ public class Animal : MonoBehaviour
     [SerializeField] private PoolItem poolItem;
     [SerializeField] private Outline outline;
     [SerializeField] private BoxCollider boxCollider;
-
+    [SerializeField] private Rigidbody headRigidBody;
+    [SerializeField] private RagdollActivator ragdollActivator;
+    [SerializeField] private AnimalPathFollower animalPathFollower;
     public AnimalsData AnimalData => animalData;
 
     public PoolItem ItemPool => poolItem;
+
+    public Rigidbody HeadRigidBody => headRigidBody;
+
+    public RagdollActivator RagdollActivator => ragdollActivator;
+
+    public AnimalPathFollower PathFollower => animalPathFollower;
 
     public void ActivateOutline(bool value)
     {
@@ -20,5 +29,8 @@ public class Animal : MonoBehaviour
     {
         boxCollider.enabled = value;
     }
-    
+
+   
+
+   
 }

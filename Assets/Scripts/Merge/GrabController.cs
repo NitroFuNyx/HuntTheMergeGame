@@ -2,10 +2,14 @@ using UnityEngine;
 
 public class GrabController : MonoBehaviour
 {
-    [Header("Internal references")] [Space] [SerializeField]
+    [Header("Internal references")]
+    [Space]
+    [SerializeField]
     private Camera mainCamera;
 
-    [Header("External references")] [Space] [SerializeField]
+    [Header("External references")] 
+    [Space] 
+    [SerializeField]
     private TileInteractionHandler tileInteractionHandler;
 
     [SerializeField] private MergeManager mergeManager;
@@ -15,7 +19,9 @@ public class GrabController : MonoBehaviour
 
     private Animal selectedObject;
 
-    [Header("Parameters")] [Space] [SerializeField]
+    [Header("Parameters")]
+    [Space] 
+    [SerializeField]
     private float offsetY = .25f;
 
     [SerializeField] private LayerMask animalLayer;

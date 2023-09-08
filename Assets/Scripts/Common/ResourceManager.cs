@@ -39,6 +39,7 @@ public class ResourceManager : Singleton<ResourceManager>, IDataPersistance
     public void IncreaseMeatAmount(int deltaAmount)
     {
         gameData.meatAmount += new Secureint(deltaAmount);
+        _dataPersistanceManager.SaveGame();
         OnMeatAmountChanged?.Invoke(gameData.meatAmount.GetValue());
     }
 
@@ -47,7 +48,7 @@ public class ResourceManager : Singleton<ResourceManager>, IDataPersistance
         gameData.meatAmount -= new Secureint(deltaAmount);
 
         if (gameData.meatAmount.GetValue() < 0) gameData.meatAmount = new Secureint(0);
-
+        _dataPersistanceManager.SaveGame();
         OnMeatAmountChanged?.Invoke(gameData.meatAmount.GetValue());
     }
 
@@ -57,8 +58,7 @@ public class ResourceManager : Singleton<ResourceManager>, IDataPersistance
     [ContextMenu("Increase Resources Amount")]
     public void TestMethod_IncreaseResourcesAmount()
     {
-        gameData.meatAmount += new Secureint(1000);
-        OnMeatAmountChanged?.Invoke(gameData.meatAmount.GetValue());
+        IncreaseMeatAmount(1000);
     }
     // End Of Test Methods
 

@@ -5,3 +5,21 @@ public enum PoolItemsTypes
     Wolf=3
 
 }
+
+public enum HuntParticipants
+{
+    Deer,
+    Hunter
+}
+
+public enum Gamemodes
+{
+    Merge,
+    Hunt
+}
+
+public enum SceneIds
+{
+    Merge=0,
+    Hunt=1,
+}

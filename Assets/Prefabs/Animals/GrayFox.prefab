@@ -815,7 +815,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2680548560175061345}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 10.934011, y: 0, z: 4.2324724}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -825,7 +825,7 @@ Transform:
   - {fileID: 2680548560175154537}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!95 &2680548560184421033
 Animator:
   serializedVersion: 4
@@ -875,6 +875,9 @@ MonoBehaviour:
   poolItem: {fileID: -2902384195924687612}
   outline: {fileID: 8263772185369397901}
   boxCollider: {fileID: 3307702912516080176}
+  headRigidBody: {fileID: 0}
+  ragdollActivator: {fileID: 0}
+  animalPathFollower: {fileID: 0}
 --- !u!65 &3307702912516080176
 BoxCollider:
   m_ObjectHideFlags: 0

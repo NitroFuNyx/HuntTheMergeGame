@@ -58,7 +58,8 @@ public class TileInitializator : MonoBehaviour, IDataPersistance
 
     public void LoadData(GameData data)
     {
-        for (var i = 0; i < data.tilesList.Count; i++) tilesList[i].MViewModel = data.tilesList[i];
+        for (var i = 0; i < data.tilesList.Count; i++)
+            tilesList[i].MViewModel = data.tilesList[i];
 
         InitTiles();
     }
@@ -67,7 +68,6 @@ public class TileInitializator : MonoBehaviour, IDataPersistance
     {
         for (var i = 0; i < tilesList.Count; i++)
         {
-            Debug.Log($"<color=yellow>{data.tilesList[i].IsLocked} and {tilesList[i].MViewModel.IsLocked}</color");
             data.tilesList[i] = tilesList[i].MViewModel;
         }
     }
